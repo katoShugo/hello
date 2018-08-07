@@ -15,7 +15,7 @@ sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/deploy-test-212
 sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
 sudo gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
 sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
-kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"$CIRCLE_SHA1"'"}]}}}}'
+kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"${HOME}/gcloud-service-key.json"'"}]}}}}'
 
 # kubectl run hello-server --image asia.gcr.io/deploy-test-212203/hello --port 8080
 # kubectl expose deployment hello-server-test --type "LoadBalancer"
