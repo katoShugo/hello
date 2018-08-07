@@ -10,5 +10,9 @@ sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
 docker build -t asia.gcr.io/deploy-test-212203/hello .
 sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/deploy-test-212203/hello
 
+# GKEへのデプロイ
+sudo /opt/google-cloud-sdk/bin/gcloud --quiet compute copy-files asia.gcr.io/deploy-test-212203/hello
+sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster	
 kubectl run hello-server-test --image asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080
 kubectl expose deployment hello-server-test --type "LoadBalancer"
