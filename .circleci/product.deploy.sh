@@ -13,6 +13,6 @@ sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/deploy-test-212
 # GKEへのデプロイ
 sudo /opt/google-cloud-sdk/bin/gcloud --quiet compute copy-files asia.gcr.io/deploy-test-212203/hello
 sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
-sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster
-kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"$CIRCLE_SHA1"'"}]}}}}'
-kubectl expose deployment hello-server-test --type "LoadBalancer"
+# sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster
+# kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"$CIRCLE_SHA1"'"}]}}}}'
+# kubectl expose deployment hello-server-test --type "LoadBalancer"
