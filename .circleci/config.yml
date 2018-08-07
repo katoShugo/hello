@@ -33,7 +33,7 @@ jobs:
             - run:
                 name: GKEへのデプロイ
                 command: |
-                    gcloud components install kubectl
+                    sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
                     # sudo /opt/google-cloud-sdk/bin/gcloud --quiet compute copy-files asia.gcr.io/deploy-test-212203/hello
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
                     sudo gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
