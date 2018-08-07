@@ -50,7 +50,7 @@ workflows:
     build_flow:
         jobs:
             - product:
-                context: deploy
+                context: deploy-test
                 filters:
                     branches:
                         only: develop
