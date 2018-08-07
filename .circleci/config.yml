@@ -1,5 +1,14 @@
 version: 2.0
 
+machine:
+  environment:
+    PROJECT_NAME: deploy-test
+    CLUSTER_NAME: hello-cluster	
+    CLOUDSDK_COMPUTE_ZONE: us-central1-a
+    DEBIAN_FRONTEND: noninteractive
+  services:
+    - docker
+
 jobs:
     product:
         machine: true
