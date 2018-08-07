@@ -1,0 +1,20 @@
+version: 2.0
+
+jobs:
+    product:
+        machine: true
+        steps:
+            - checkout
+            - run: echo "product!!"
+            - run: chmod 777 ./.circleci/product.deploy.sh
+            - run: bash ./.circleci/product.deploy.sh
+workflows:
+    version: 2
+    test_and_deploy:
+        jobs:
+            - product:
+                context: deploy-test
+                filters:
+                    branches:
+                        only: develop
+
