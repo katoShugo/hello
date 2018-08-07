@@ -1,5 +1,3 @@
-version: 2.0
-
 machine:
   environment:
     PROJECT_NAME: deploy-test
@@ -8,21 +6,51 @@ machine:
     DEBIAN_FRONTEND: noninteractive
   services:
     - docker
-
+version: 2.0
 jobs:
     product:
         machine: true
         steps:
             - checkout
-            - run: echo "product!!"
-            - run: chmod 777 ./.circleci/product.deploy.sh
-            - run: bash ./.circleci/product.deploy.sh
+            - run:
+                name: ACCTからサービスアカウントキーファイルを作成
+                command: |
+                    echo $ACCT_AUTH | base64 -d > ${HOME}/gcloud-service-key.json
+
+            - run:
+                name: gloudの設定
+                command: |
+                    sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+
+            - run:
+                name: コンテナのimageをUPLOAD
+                command: |
+                    docker build -t asia.gcr.io/deploy-test-212203/hello .
+                    sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/deploy-test-212203/hello
+
+            - run:
+                name: GKEへのデプロイ
+                command: |
+                    # sudo /opt/google-cloud-sdk/bin/gcloud --quiet compute copy-files asia.gcr.io/deploy-test-212203/hello
+                    sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+                    sudo gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
+                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
+                    kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"${HOME}/gcloud-service-key.json"'"}]}}}}'
+
+                    # kubectl run hello-server --image asia.gcr.io/deploy-test-212203/hello --port 8080
+                    # kubectl expose deployment hello-server-test --type "LoadBalancer"
+
+            # - run: chmod 777 ./.circleci/product.deploy.sh
+            # - run: bash ./.circleci/product.deploy.sh
+
 workflows:
     version: 2
-    test_and_deploy:
+    build_flow:
         jobs:
             - product:
-                context: deploy-test
+                context: deploy
                 filters:
                     branches:
                         only: develop
