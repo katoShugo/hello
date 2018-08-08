@@ -21,7 +21,7 @@ jobs:
                 name: gloudの設定
                 command: |
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
-                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file $ACCT_AUTH
                     sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
 
             - run:
@@ -40,7 +40,7 @@ jobs:
                     sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
                     sudo /opt/google-cloud-sdk/bin/gcloud config config-helper --format=json
                     sudo chmod 777 /home/circleci/.kube/config
-                    kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"$CIRCLE_SHA1"'"}]}}}}'
+                    kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"$ACCT_AUTH"'"}]}}}}'
 
                     # kubectl run hello-server --image asia.gcr.io/deploy-test-212203/hello --port 8080
                     # kubectl expose deployment hello-server-test --type "LoadBalancer"
