@@ -24,7 +24,7 @@ jobs:
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
                     ./helm init
-                    ./helm update
+                    # ./helm update
                     # export PROJECT=$(gcloud info --format='value(config.project)')
                     # export BUCKET=$PROJECT-helm-repo
                     # ./helm plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.1.1
