@@ -29,7 +29,7 @@ jobs:
                     cp linux-amd64/helm .
                     sudo chmod 777 /home/circleci/.kube/config
                     sudo chmod 777 /home/circleci/.config/gcloud/logs
-                    sudo chmod 777 /home/circleci/.config/gcloud/credentials.db
+                    # sudo chmod 777 /home/circleci/.config/gcloud/credentials.db
                     kubectl create serviceaccount --namespace kube-system tiller
                     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
                     helm init --service-account tiller
