@@ -23,8 +23,7 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    sudo chmod 777 /home/circleci/.config/gcloud/credentials.db
-                    gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
+                    sudo /opt/google-cloud-sdk/bin/ gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
                     kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
                     # kubectl create serviceaccount tiller --namespace kube-system
                     # kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
