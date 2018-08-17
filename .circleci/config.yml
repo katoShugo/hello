@@ -19,6 +19,9 @@ jobs:
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
                     sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
                     sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone us-central1-a
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster	
+                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster	
                     sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
