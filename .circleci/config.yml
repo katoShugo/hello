@@ -12,7 +12,8 @@ jobs:
         machine: true
         steps:
             - checkout
-            name: helmのインストール
+            - run:
+                name: helmのインストール
                 command: |
                     echo $ACCT_AUTH | base64 -d > ${HOME}/gcloud-service-key.json
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
