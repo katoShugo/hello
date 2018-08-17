@@ -23,7 +23,7 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    kubectl run hello-server --image gcr.io/google-samples/hello-app:1.0 --port 8080
+                    sudo kubectl run hello-server --image gcr.io/google-samples/hello-app:1.0 --port 8080
                     # sudo /opt/google-cloud-sdk/bin/ gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
                     # kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
                     # kubectl create serviceaccount tiller --namespace kube-system
