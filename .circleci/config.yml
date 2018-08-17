@@ -27,7 +27,7 @@ jobs:
                 name: helmのインストール
                 command: |
                     sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
-                    # kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin
+                    kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin
                     # kubectl create namespace tiller-world
                     # kubectl create -f ../tiller-rbac.yaml
 
