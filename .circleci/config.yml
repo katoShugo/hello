@@ -23,8 +23,12 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    kubectl -n kube-system delete deploy tiller-deploy
-                    ./helm init --service-account default
+                    kubectl create serviceaccount --namespace kube-system tiller
+                    kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    helm init --service-account tiller
+                    helm ls # does not return an error
+
+
                     # ./helm update
                     # export PROJECT=$(gcloud info --format='value(config.project)')
                     # export BUCKET=$PROJECT-helm-repo
