@@ -22,7 +22,7 @@ jobs:
                     sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
-                    cp linux-amd64/helm .
+                    # cp linux-amd64/helm .
                     # ./helm init
                     # ./helm update
                     # export PROJECT=$(gcloud info --format='value(config.project)')
