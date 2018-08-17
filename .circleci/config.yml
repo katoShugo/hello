@@ -12,27 +12,42 @@ jobs:
         machine: true
         steps:
             - checkout
-            - run:
-                name: ACCTからサービスアカウントキーファイルを作成
+            name: helmのインストール
                 command: |
                     echo $ACCT_AUTH | base64 -d > ${HOME}/gcloud-service-key.json
-
-            - run:
-                name: gloudの設定
-                command: |
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
                     sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
                     sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
-            - run:
-                name: helmのインストール
-                command: |
                     sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
+                    gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
                     kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
-                    kubectl create serviceaccount tiller --namespace kube-system
-                    kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    # kubectl create serviceaccount tiller --namespace kube-system
+                    # kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+            # - run:
+            #     name: ACCTからサービスアカウントキーファイルを作成
+            #     command: |
+            #         echo $ACCT_AUTH | base64 -d > ${HOME}/gcloud-service-key.json
+
+            # - run:
+            #     name: gloudの設定
+            #     command: |
+            #         sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+            #         sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            #         sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+            # - run:
+            #     name: helmのインストール
+            #     command: |
+            #         sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+            #         wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
+            #         tar zxfv helm-v2.7.2-linux-amd64.tar.gz
+            #         cp linux-amd64/helm .
+                    # kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+                    # kubectl create serviceaccount tiller --namespace kube-system
+                    # kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
             # - run:
             #     name: コンテナのimageをUPLOAD
