@@ -23,7 +23,14 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.7.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    helm lint
+                    ./helm init
+                    ./helm update
+                    export PROJECT=$(gcloud info --format='value(config.project)')
+                    export BUCKET=$PROJECT-helm-repo
+                    ./helm plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.1.1
+                    gsutil mb -l us-central1 gs://$BUCKET
+                    ./helm gcs init gs://$BUCKET
+                    ./helm version
                     # sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials --zone us-central1-a hello-cluster
                     # sudo chmod 777 /home/circleci/.kube/config
                     # sudo chmod 777 /home/circleci/.config/gcloud/logs
