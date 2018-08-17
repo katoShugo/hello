@@ -13,37 +13,60 @@ jobs:
         steps:
             - checkout
             - run:
-                name: ACCTからサービスアカウントキーファイルを作成
+                name: helmのインストール
                 command: |
-                    echo $ACCT_AUTH | base64 -d > ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud components install helm
+                    # echo "install helm"
+                    # # installs helm with bash commands for easier command line integration
+                    # curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+                    # # add a service account within a namespace to segregate tiller
+                    # kubectl --namespace kube-system create sa tiller
+                    # # create a cluster role binding for tiller
+                    # kubectl create clusterrolebinding tiller \
+                    #     --clusterrole cluster-admin \
+                    #     --serviceaccount=kube-system:tiller
 
-            - run:
-                name: gloudの設定
-                command: |
-                    sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
-                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                    # echo "initialize helm"
+                    # # initialized helm within the tiller service account
+                    # helm init --service-account tiller
+                    # # updates the repos for Helm repo integration
+                    # helm repo update
 
-            - run:
-                name: コンテナのimageをUPLOAD
-                command: |
-                    docker build -t asia.gcr.io/deploy-test-212203/hello .
-                    sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/deploy-test-212203/hello
+                    # echo "verify helm"
+                    # # verify that helm is installed in the cluster
+                    # kubectl get deploy,svc tiller-deploy -n kube-system
+            # - run:
+            #     name: ACCTからサービスアカウントキーファイルを作成
+            #     command: |
+            #         echo $ACCT_AUTH | base64 -d > ${HOME}/gcloud-service-key.json
 
-            - run:
-                name: GKEへのデプロイ
-                command: |
-                    sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
-                    # sudo /opt/google-cloud-sdk/bin/gcloud --quiet compute copy-files asia.gcr.io/deploy-test-212203/hello
-                    sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
-                    sudo gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
-                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
-                    sudo /opt/google-cloud-sdk/bin/gcloud config config-helper --format=json
-                    sudo chmod 777 /home/circleci/.kube/config
-                    kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"${HOME}/gcloud-service-key.json"'"}]}}}}'
+            # - run:
+            #     name: gloudの設定
+            #     command: |
+            #         sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+            #         sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            #         sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
 
-                    kubectl run hello-server --image asia.gcr.io/deploy-test-212203/hello --port 8080
-                    kubectl expose deployment hello-server-test --type "LoadBalancer"
+            # - run:
+            #     name: コンテナのimageをUPLOAD
+            #     command: |
+            #         docker build -t asia.gcr.io/deploy-test-212203/hello .
+            #         sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/deploy-test-212203/hello
+
+            # - run:
+            #     name: GKEへのデプロイ
+            #     command: |
+            #         sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+            #         # sudo /opt/google-cloud-sdk/bin/gcloud --quiet compute copy-files asia.gcr.io/deploy-test-212203/hello
+            #         sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+            #         sudo gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
+            #         sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
+            #         sudo /opt/google-cloud-sdk/bin/gcloud config config-helper --format=json
+            #         sudo chmod 777 /home/circleci/.kube/config
+            #         kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"${HOME}/gcloud-service-key.json"'"}]}}}}'
+
+            #         kubectl run hello-server --image asia.gcr.io/deploy-test-212203/hello --port 8080
+            #         kubectl expose deployment hello-server-test --type "LoadBalancer"
 
             # - run: chmod 777 ./.circleci/product.deploy.sh
             # - run: bash ./.circleci/product.deploy.sh
