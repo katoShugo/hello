@@ -30,11 +30,9 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-
-
-                    # ./helm init --service-account default
-                    ./helm init --tiller-namespace test-namespace
-                    ./helm update
+                    kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+                    kubectl create serviceaccount tiller --namespace kube-system
+                    kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
                     # kubectl config get-contexts
