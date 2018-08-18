@@ -33,13 +33,10 @@ jobs:
                     kubectl config view --minify --flatten > kubeconfig
                     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
                     export KUBECONFIG=path/to/copied/kubeconfig
-                    # curl "http://metadata/computeMetadata/v1/instance/service-accounts/default/token" -H "X-Google-Metadata-Request: True"
-                    # curl -X PUT  -X GET  -H "Authorization: Bearer <accsess_token>" "https://www.googleapis.com/storage/v1/b/<bucket_name>/o"
-                    # curl -X POST --data-binary @hogehoge.txt -H "Authorization: Bearer <access_token>" "https://www.googleapis.com/upload/storage/v1/b/<bucket_name>/o?name=hogehoge.txt"
-                    # kubectl create serviceaccount --namespace kube-system tiller
-                    # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-                    # helm init --service-account tiller
-                    # helm ls # does not return an error
+                    kubectl create serviceaccount --namespace kube-system tiller
+                    kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    helm init --service-account tiller
+                    helm ls # does not return an error
 
 
                     # ./helm update
