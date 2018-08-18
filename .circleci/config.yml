@@ -16,7 +16,7 @@ jobs:
                 name: helmのインストール
                 command: |
                     echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
-                    echo ${HOME}/gcloud-service-key.json
+                    cat ${HOME}/gcloud-service-key.json
                     
                     # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
                     # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 146.0.0
@@ -51,7 +51,7 @@ jobs:
                     # sudo cp /etc/kubernetes/admin.conf $HOME/
                     # sudo chown $(id -u):$(id -g) $HOME/admin.conf
                     # export KUBECONFIG=$HOME/admin.conf
-                    kubectl create serviceaccount --namespace kube-system tiller
+                    # kubectl create serviceaccount --namespace kube-system tiller
 
 
                     # helm install 
