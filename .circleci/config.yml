@@ -34,10 +34,7 @@ jobs:
 
                     ./helm init
                     ./helm update
-                    ls
-                    # ./helm package helm
-                    # ls
-                    # ./helm install -f ./helm/values/dev.yaml ./helm
+                    ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
 
                     # ./helm update
                     # ./helm version
