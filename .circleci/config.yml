@@ -54,7 +54,6 @@ jobs:
                     ./helm update repo
                     # ./helm init --service-account tiller
                     # ./helm init --upgrade
-                    ./helm packa
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
                     # kubectl config get-contexts
