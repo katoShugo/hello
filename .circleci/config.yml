@@ -42,7 +42,7 @@ jobs:
                     # helm update repo . # This was the last piece to the puzzle
                     # kubectl create serviceaccount --namespace kube-system tiller
                     # kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-                    kubectl --username=admin --password=<snip> create clusterrolebinding cluster-admin-binding \
+                    kubectl --username=saikyounojakureibousya@gmail.com --password=GikoThi5 create clusterrolebinding cluster-admin-binding \
                     --clusterrole=cluster-admin \
                     --user=$(gcloud config get-value core/account)
                     kubectl create serviceaccount --namespace kube-system tiller
@@ -54,6 +54,9 @@ jobs:
                     ./helm update repo
                     # ./helm init --service-account tiller
                     # ./helm init --upgrade
+                    # パッケージ化する？未定
+                    # ./helm packa
+
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
                     # kubectl config get-contexts
