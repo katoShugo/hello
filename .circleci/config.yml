@@ -30,10 +30,9 @@ jobs:
                     sudo chmod 777 /home/circleci/.kube/config
                     sudo chmod 777 /home/circleci/.config/gcloud/logs
                     export CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true
-                    gcloud container clusters get-credentials hello-cluster
-                    # kubectl config view --minify --flatten > kubeconfig
-                    # export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
-                    # export KUBECONFIG=path/to/copied/kubeconfig
+                    kubectl config view --minify --flatten > kubeconfig
+                    export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+                    export KUBECONFIG=path/to/copied/kubeconfig
                     # curl "http://metadata/computeMetadata/v1/instance/service-accounts/default/token" -H "X-Google-Metadata-Request: True"
                     # curl -X PUT  -X GET  -H "Authorization: Bearer <accsess_token>" "https://www.googleapis.com/storage/v1/b/<bucket_name>/o"
                     # curl -X POST --data-binary @hogehoge.txt -H "Authorization: Bearer <access_token>" "https://www.googleapis.com/upload/storage/v1/b/<bucket_name>/o?name=hogehoge.txt"
