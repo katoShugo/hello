@@ -33,6 +33,9 @@ jobs:
                     kubectl config view --minify --flatten > kubeconfig
                     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
                     export KUBECONFIG=path/to/copied/kubeconfig
+                    sudo cp /etc/kubernetes/admin.conf $HOME/
+                    sudo chown $(id -u):$(id -g) $HOME/admin.conf
+                    export KUBECONFIG=$HOME/admin.conf
                     kubectl create serviceaccount --namespace kube-system tiller
                     # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
                     # helm init --service-account tiller
