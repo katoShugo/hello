@@ -27,9 +27,9 @@ jobs:
                     sudo chmod 777 /home/circleci/.config/gcloud/logs
                     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
 
-                    wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
-                    tar zxfv helm-v2.6.2-linux-amd64.tar.gz
-                    cp -f linux-amd64/helm .
+                    # wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
+                    # tar zxfv helm-v2.6.2-linux-amd64.tar.gz
+                    # cp -f linux-amd64/helm .
 
                     ./helm init
                     ./helm update
