@@ -42,7 +42,7 @@ jobs:
                     # helm update repo . # This was the last piece to the puzzle
                     # kubectl create serviceaccount --namespace kube-system tiller
                     # kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-                    sudo /opt/google-cloud-sdk/bin/gcloud projects add-iam-policy-binding deploy-test-212203 \
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set projects add-iam-policy-binding deploy-test-212203 \
                     --member=user:saikyounojakureibousya@gmail.com \
                     --role=roles/container.admin
                     # kubectl --username=saikyounojakureibousya@gmail.com --password=GikoThi5 create clusterrolebinding cluster-admin-binding \
