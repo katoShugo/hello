@@ -29,11 +29,11 @@ jobs:
 
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
-                    cp linux-amd64/helm .
+                    cp -f linux-amd64/helm .
 
                     ./helm init
                     ./helm update
-                    # ./helm install -f values/dev.yaml ../helm
+                    ./helm install -f values/dev.yaml ../helm
 
                     # ./helm update
                     # ./helm version
