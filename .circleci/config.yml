@@ -31,11 +31,10 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    cat ./helm
 
-                    # ./helm init
-                    # ./helm update
-                    # ./helm version
+                    ./helm init
+                    ./helm update
+                    ./helm version
                     
                     # kubectl config get-contexts
 
