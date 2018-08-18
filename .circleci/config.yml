@@ -32,7 +32,7 @@ jobs:
                     cp linux-amd64/helm .
 
                     ./helm init
-                    ./helm init install -f values/dev.yaml ../helm
+                    ./helm install -f values/dev.yaml ../helm/
 
                     # ./helm update
                     # ./helm version
