@@ -31,7 +31,9 @@ jobs:
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
 
-                    ./helm init --service-account default
+
+                    # ./helm init --service-account default
+                    ./helm init --tiller-namespace test-namespace
                     ./helm update
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
