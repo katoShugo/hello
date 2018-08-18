@@ -26,7 +26,7 @@ jobs:
                     sudo chmod 777 /home/circleci/.kube/config
                     sudo chmod 777 /home/circleci/.config/gcloud/logs
                     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
-
+                    kubectl config current-context
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
@@ -34,7 +34,7 @@ jobs:
                     # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
                     # helm init --service-account tiller --upgrade
                     # helm update repo . # This was the last piece to the puzzle
-                    ./helm init --client-only
+                    ./helm init
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
                     # kubectl config get-contexts
