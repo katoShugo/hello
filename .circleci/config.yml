@@ -8,56 +8,55 @@ machine:
     - docker
 version: 2.0
 jobs:
-    build:
-        # product:
-        machine: true
-        steps:
-            - checkout
-            - run:
-                name: helmのインストール
-                command: |
-                    echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
-                    # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
-                    sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 146.0.0
-                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone us-central1-a
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster	
-                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster	
-                    sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
-                    wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
-                    tar zxfv helm-v2.7.2-linux-amd64.tar.gz
-                    cp linux-amd64/helm .
-                    sudo chmod 777 /home/circleci/.kube/config
-                    sudo chmod 777 /home/circleci/.config/gcloud/logs
-                    export CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true
-                    gcloud container clusters get-credentials hello-cluster	
-                    # kubectl config view --minify --flatten > kubeconfig
-                    # export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
-                    # export KUBECONFIG=path/to/copied/kubeconfig
-                    # curl "http://metadata/computeMetadata/v1/instance/service-accounts/default/token" -H "X-Google-Metadata-Request: True"
-                    # curl -X PUT  -X GET  -H "Authorization: Bearer <accsess_token>" "https://www.googleapis.com/storage/v1/b/<bucket_name>/o"
-                    # curl -X POST --data-binary @hogehoge.txt -H "Authorization: Bearer <access_token>" "https://www.googleapis.com/upload/storage/v1/b/<bucket_name>/o?name=hogehoge.txt"
-                    # kubectl create serviceaccount --namespace kube-system tiller
-                    # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-                    # helm init --service-account tiller
-                    # helm ls # does not return an error
+    product:
+    machine: true
+    steps:
+        - checkout
+        - run:
+            name: helmのインストール
+            command: |
+                echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+                # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+                sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 146.0.0
+                sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+                sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone us-central1-a
+                sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster	
+                sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster	
+                sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+                wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
+                tar zxfv helm-v2.7.2-linux-amd64.tar.gz
+                cp linux-amd64/helm .
+                sudo chmod 777 /home/circleci/.kube/config
+                sudo chmod 777 /home/circleci/.config/gcloud/logs
+                export CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true
+                gcloud container clusters get-credentials hello-cluster	
+                # kubectl config view --minify --flatten > kubeconfig
+                # export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+                # export KUBECONFIG=path/to/copied/kubeconfig
+                # curl "http://metadata/computeMetadata/v1/instance/service-accounts/default/token" -H "X-Google-Metadata-Request: True"
+                # curl -X PUT  -X GET  -H "Authorization: Bearer <accsess_token>" "https://www.googleapis.com/storage/v1/b/<bucket_name>/o"
+                # curl -X POST --data-binary @hogehoge.txt -H "Authorization: Bearer <access_token>" "https://www.googleapis.com/upload/storage/v1/b/<bucket_name>/o?name=hogehoge.txt"
+                # kubectl create serviceaccount --namespace kube-system tiller
+                # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                # helm init --service-account tiller
+                # helm ls # does not return an error
 
 
-                    # ./helm update
-                    # export PROJECT=$(gcloud info --format='value(config.project)')
-                    # export BUCKET=$PROJECT-helm-repo
-                    # ./helm plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.1.1
-                    # gsutil mb gs://$PROJECT-helm-repo
-                    # ./helm gcs init gs://$BUCKET
-                    # ./helm version
-                    # sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials --zone us-central1-a hello-cluster
-                    # sudo chmod 777 /home/circleci/.kube/config
-                    # sudo chmod 777 /home/circleci/.config/gcloud/logs
-                    # sudo chmod 777 /home/circleci/.config/gcloud/credentials.db
-                    # kubectl run hello-server --image gcr.io/google-samples/hello-app:1.0 --port 8080
-                    # kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
-                    # kubectl create serviceaccount tiller --namespace kube-system
+                # ./helm update
+                # export PROJECT=$(gcloud info --format='value(config.project)')
+                # export BUCKET=$PROJECT-helm-repo
+                # ./helm plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.1.1
+                # gsutil mb gs://$PROJECT-helm-repo
+                # ./helm gcs init gs://$BUCKET
+                # ./helm version
+                # sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials --zone us-central1-a hello-cluster
+                # sudo chmod 777 /home/circleci/.kube/config
+                # sudo chmod 777 /home/circleci/.config/gcloud/logs
+                # sudo chmod 777 /home/circleci/.config/gcloud/credentials.db
+                # kubectl run hello-server --image gcr.io/google-samples/hello-app:1.0 --port 8080
+                # kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+                # kubectl create serviceaccount tiller --namespace kube-system
                 # kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
             # - run:
