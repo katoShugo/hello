@@ -19,29 +19,29 @@ jobs:
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
                     # 下記は行ける
                     # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 146.0.0
-                    # sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
-                    # sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-                    # sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
-                    # sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone us-central1-a
-                    # sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster	
-                    # sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster	
-                    # sudo chmod 777 /home/circleci/.kube/config
-                    # sudo chmod 777 /home/circleci/.config/gcloud/logs
-                    # export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
-                    # wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
-                    # tar zxfv helm-v2.6.2-linux-amd64.tar.gz
-                    # cp linux-amd64/helm .
-                    # kubectl create serviceaccount --namespace kube-system tiller
-                    # kubectl create clusterrolebinding tiller-cluster-rule \
-                    # --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-                    # kubectl patch deploy --namespace kube-system tiller-deploy \
-                    # -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-                    # kubectl create serviceaccount --namespace kube-system tiller
-                    # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-                    # helm init --service-account tiller --upgrade
-                    # helm update repo . # This was the last piece to the puzzle
-                    # ./helm init --upgrade
-                    # ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
+                    sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone us-central1-a
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster	
+                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster	
+                    sudo chmod 777 /home/circleci/.kube/config
+                    sudo chmod 777 /home/circleci/.config/gcloud/logs
+                    export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+                    wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
+                    tar zxfv helm-v2.6.2-linux-amd64.tar.gz
+                    cp linux-amd64/helm .
+                    kubectl create serviceaccount --namespace kube-system tiller
+                    kubectl create clusterrolebinding tiller-cluster-rule \
+                    --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    kubectl patch deploy --namespace kube-system tiller-deploy \
+                    -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+                    kubectl create serviceaccount --namespace kube-system tiller
+                    kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    helm init --service-account tiller --upgrade
+                    helm update repo . # This was the last piece to the puzzle
+                    ./helm init --upgrade
+                    ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
                     # kubectl config get-contexts
 
