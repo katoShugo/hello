@@ -22,9 +22,9 @@ jobs:
                     sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
                     sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
                     sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone asia-northeast1-a	
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster-2
-                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster-2
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone　asia-northeast1-a
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster  hello-cluster-2
+                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials  hello-cluster-2
                     sudo chmod 777 /home/circleci/.kube/config
                     sudo chmod 777 /home/circleci/.config/gcloud/logs
                     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
@@ -42,9 +42,12 @@ jobs:
                     # helm update repo . # This was the last piece to the puzzle
                     # kubectl create serviceaccount --namespace kube-system tiller
                     # kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-                    kubectl --username=saikyounojakureibousya@gmail.com --password=GikoThi5 create clusterrolebinding cluster-admin-binding \
-                    --clusterrole=cluster-admin \
-                    --user=$(gcloud config get-value core/account)
+                    sudo /opt/google-cloud-sdk/bin/gcloud projects add-iam-policy-binding deploy-test-212203 \
+                    --member=user:saikyounojakureibousya@gmail.com \
+                    --role=roles/container.admin
+                    # kubectl --username=saikyounojakureibousya@gmail.com --password=GikoThi5 create clusterrolebinding cluster-admin-binding \
+                    # --clusterrole=cluster-admin \
+                    # --user=$(gcloud config get-value core/account)
                     kubectl create serviceaccount --namespace kube-system tiller
                     kubectl create clusterrolebinding tiller-cluster-rule \
                     --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
