@@ -32,9 +32,9 @@ jobs:
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
 
-                    helm init
-                    helm update
-                    helm install -f values/dev.yaml ../helm
+                    ./helm init
+                    ./helm update
+                    ./helm install -f values/dev.yaml ../helm
 
                     # ./helm update
                     # ./helm version
