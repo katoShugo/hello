@@ -34,7 +34,7 @@ jobs:
                     cp linux-amd64/helm .
                     ./helm init
                     ./helm update
-                    /helm version
+                    ./helm version
                     
                     # kubectl config get-contexts
 
