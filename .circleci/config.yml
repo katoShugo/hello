@@ -34,7 +34,7 @@ jobs:
                     # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
                     # helm init --service-account tiller --upgrade
                     # helm update repo . # This was the last piece to the puzzle
-                    ./helm init
+                    ./helm init --upgrade
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
                     # kubectl config get-contexts
