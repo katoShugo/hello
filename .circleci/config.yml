@@ -37,9 +37,9 @@ jobs:
                     # kubectl patch deploy --namespace kube-system tiller-deploy \
                     # -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
                     # kubectl create serviceaccount --namespace kube-system tiller
-                    kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-                    helm init --service-account tiller --upgrade
-                    helm update repo . # This was the last piece to the puzzle
+                    # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    # helm init
+                    # helm update repo . # This was the last piece to the puzzle
                     ./helm init --upgrade
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
