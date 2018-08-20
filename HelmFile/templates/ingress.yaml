@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.helloworld.service.metadata.name }}
+spec:
+  rules:
+  - host: {{ .Values.helloworld.ingress.hosts }}
+    http:
+      paths:
+      - backend:
+          serviceName: helloworld-service
+          servicePort: 80

@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  # Deploymentの名前。Namespace内ではユニークである必要があります
+  name: {{ .Values.helloworld.deployment.metadata.name }}
+spec:
+  # レプリカ数の指定
+  replicas: {{ .Values.helloworld.deployment.replicaCount }}
+  # Podのテンプレート(PodTemplate)
+  template:
+    metadata:
+      labels:
+        # ラベル指定は必須
+        app: deployment
+    spec:
+      containers:
+        - name: helloworld-http
+          image: {{ .Values.helloworld.deployment.image }}
+          ports:
+          - containerPort: 80
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3 
