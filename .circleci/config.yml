@@ -8,7 +8,8 @@ machine:
     - docker
 version: 2.0
 jobs:
-    product:
+    build:
+        # product:
         machine: true
         steps:
             - checkout
@@ -33,6 +34,8 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
+                    ./helm init --tiller-namespace tiller-world2 --service-account tiller
+                    ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile --tiller-namespace tiller-world2 --namespace tiller-world2
                     # kubectl create serviceaccount --namespace kube-system tiller
                     # kubectl create clusterrolebinding tiller-cluster-rule \
                     # --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
@@ -73,11 +76,8 @@ jobs:
                     # kubectl create namespace tiller-world2
                     # kubectl create -f ./tiller-rbac.yaml
                     # -----------------------
-                    
-                    ./helm init --tiller-namespace tiller-world2 --service-account tiller
-                    ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile --tiller-namespace tiller-world2 --namespace tiller-world2
-
-
+                    # ./helm init --tiller-namespace tiller-world2 --service-account tiller
+                    # ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile --tiller-namespace tiller-world2 --namespace tiller-world2
                     # ./helm init --service-account default
                     # ./helm init
                     # ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
@@ -175,9 +175,10 @@ workflows:
     version: 2
     build_flow:
         jobs:
-            - product:
-                context: deploy-test
-                filters:
-                    branches:
-                        only: develop
+            build:   
+                - product:
+                    context: deploy-test
+                    # filters:
+                    #     branches:
+                    #         only: develop
 
