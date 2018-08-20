@@ -185,3 +185,4 @@ workflows:
                 filters:
                     branches:
                         only: develop
+                        only: confirmation
