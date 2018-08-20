@@ -65,8 +65,9 @@ jobs:
                     # ./helm init --upgrade
                     # パッケージ化する？未定
                     # ./helm packa
-
-                    ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
+                    
+                    # ./helm init
+                    # ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
                     # kubectl config get-contexts
 
