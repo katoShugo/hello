@@ -50,8 +50,7 @@ jobs:
                     # --user=$(gcloud config get-value core/account)
 
                     # koko!!!!!!!!!!!!!!!
-                    # kubectl create serviceaccount --namespace kube-system tiller
-                    
+                    kubectl create serviceaccount --namespace kube-system tiller
                     kubectl create clusterRoleBindings tiller-cluster-rule \
                     --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
                     
