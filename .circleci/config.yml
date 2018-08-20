@@ -183,9 +183,9 @@ workflows:
         jobs: 
             - product:
                 context: deploy-test
-                filters:
-                    branches:
-                        develop
+                # filters:
+                #     branches:
+                #         develop
                         # confirmation
                         # パイプつけた
                         # only: |
