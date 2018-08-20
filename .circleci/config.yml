@@ -66,9 +66,14 @@ jobs:
                     # ./helm init --upgrade
                     # パッケージ化する？未定
                     # ./helm packa
-                    kubectl create clusterrolebinding cluster-admin-binding4 --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
-                    kubectl create namespace tiller-world2
-                    kubectl create -f ./tiller-rbac.yaml
+
+                    # 下記はいけそう..
+                    # -----------------------
+                    # kubectl create clusterrolebinding cluster-admin-binding4 --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
+                    # kubectl create namespace tiller-world2
+                    # kubectl create -f ./tiller-rbac.yaml
+                    # -----------------------
+                    
                     ./helm init --tiller-namespace tiller-world2 --service-account tiller
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile --tiller-namespace tiller-world2 --namespace tiller-world2
 
