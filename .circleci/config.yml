@@ -185,7 +185,9 @@ workflows:
                 context: deploy-test
                 filters:
                     branches:
+                        develop
+                        confirmation
                         # パイプつけた
-                        only: |
-                            develop
-                            confirmation
+                        # only: |
+                            # develop
+                            # confirmation
