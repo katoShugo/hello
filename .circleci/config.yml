@@ -179,7 +179,7 @@ workflows:
             build:   
                 - product:
                     context: deploy-test
-                    # filters:
-                    #     branches:
-                    #         only: develop
+                    filters:
+                        branches:
+                            only: develop
 
