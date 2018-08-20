@@ -62,7 +62,7 @@ jobs:
 
                     # ./helm init --upgrade
                     # ./helm update repo
-                    ./helm init --service-account tiller
+                    ./helm init --service-account tiller2
                     # ./helm init --upgrade
                     # パッケージ化する？未定
                     # ./helm packa
