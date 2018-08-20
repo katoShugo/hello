@@ -17,7 +17,6 @@ jobs:
                 command: |
                     # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # スーパーユーザー権限付与
-                    # スーパーユーザー権限付与
                     echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
                     # 下記は行ける
@@ -34,8 +33,14 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    ./helm init --tiller-namespace tiller-world2 --service-account tiller
-                    ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile --tiller-namespace tiller-world2 --namespace tiller-world2
+                    ./helm init --tiller-namespace tiller-world2 --service-account tiller --upgrade
+                    # ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile --tiller-namespace tiller-world2 --namespace tiller-world2
+                    ./helm upgrade --install  releaseName1 -f ./HelmFile/values/dev.yaml ./HelmFile --tiller-namespace tiller-world2 --namespace tiller-world2
+
+
+
+
+
                     # kubectl create serviceaccount --namespace kube-system tiller
                     # kubectl create clusterrolebinding tiller-cluster-rule \
                     # --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
