@@ -60,13 +60,13 @@ jobs:
                     # -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 
 
-                    ./helm init --service-account tiller2
-                    ./helm update repo
+                    # ./helm init --service-account tiller2
+                    # ./helm update repo
                     # ./helm init --service-account tiller2
                     # ./helm init --upgrade
                     # パッケージ化する？未定
                     # ./helm packa
-                    
+                    helm init --service-account default
                     # ./helm init
                     ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
                     
