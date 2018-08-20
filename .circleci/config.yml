@@ -18,6 +18,7 @@ jobs:
                 command: |
                     # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # スーパーユーザー権限付与
+                    # スーパーユーザー権限付与
                     echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
                     # 下記は行ける
