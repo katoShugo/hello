@@ -1,0 +1,20 @@
+# Default values for test-helm-2.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+helloworld:
+  
+  deployment:
+    replicaCount: 2
+    image: strm/helloworld-http
+    tag: stable
+    pullPolicy: IfNotPresent
+  
+  #現代段階において使ってはいないが、今後使う可能性があるため残しております。 
+  # service:
+  #   type: ClusterIP
+  #   port: 80
+
+  ingress:
+    hosts:
+      - shugo.com

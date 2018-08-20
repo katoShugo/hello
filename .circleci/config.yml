@@ -1,0 +1,171 @@
+machine:
+  environment:
+    PROJECT_NAME: deploy-test
+    CLUSTER_NAME: hello-cluster	
+    CLOUDSDK_COMPUTE_ZONE: us-central1-a
+    DEBIAN_FRONTEND: noninteractive
+  services:
+    - docker
+version: 2.0
+jobs:
+    product:
+        machine: true
+        steps:
+            - checkout
+            - run:
+                name: helmのインストール
+                command: |
+                    # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+                    # スーパーユーザー権限付与
+                    echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
+                    # 下記は行ける
+                    # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 146.0.0
+                    sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone asia-northeast1-a
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster-2
+                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster-2
+                    sudo chmod 777 /home/circleci/.kube/config
+                    sudo chmod 777 /home/circleci/.config/gcloud/logs
+                    export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+                    wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
+                    tar zxfv helm-v2.6.2-linux-amd64.tar.gz
+                    cp linux-amd64/helm .
+                    # kubectl create serviceaccount --namespace kube-system tiller
+                    # kubectl create clusterrolebinding tiller-cluster-rule \
+                    # --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    # kubectl patch deploy --namespace kube-system tiller-deploy \
+                    # -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+                    # kubectl create serviceaccount --namespace kube-system tiller
+                    # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    # helm init
+                    # helm update repo . # This was the last piece to the puzzle
+                    # kubectl create serviceaccount --namespace kube-system tiller
+                    # kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+                    # sudo /opt/google-cloud-sdk/bin/gcloud config set projects add-iam-policy-binding deploy-test-212203 \
+                    # --member=user:saikyounojakureibousya@gmail.com \
+                    # --role=roles/container.admin
+                    # kubectl --username=saikyounojakureibousya@gmail.com --password=GikoThi5 create clusterrolebinding cluster-admin-binding \
+                    # --clusterrole=cluster-admin \
+                    # --user=$(gcloud config get-value core/account)
+
+                    # koko!!!!!!!!!!!!!!!
+                    # kubectl create serviceaccount --namespace kube-system tiller
+                    # kubectl create clusterRoleBindings tiller-cluster-rule \
+                    # --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    
+                    # kubectl patch deploy --namespace kube-system tiller-deploy \
+                    # -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+
+
+                    # ./helm init --upgrade
+                    # ./helm update repo
+                    ./helm init --service-account tiller
+                    # ./helm init --upgrade
+                    # パッケージ化する？未定
+                    # ./helm packa
+                    
+                    # ./helm init
+                    ./helm install -f ./HelmFile/values/dev.yaml ./HelmFile
+                    
+                    # kubectl config get-contexts
+
+
+                    
+                    # sudo chmod 777 /home/circleci/.config/gcloud/logs
+                    
+                    # export CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true
+                    # kubectl config view --minify --flatten > kubeconfig
+                    # export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+                    # export KUBECONFIG=path/to/copied/kubeconfig
+                    # kubectl --kubeconfig=~/.kube/config
+                    # sudo cp /etc/kubernetes/admin.conf $HOME/
+                    # sudo chown $(id -u):$(id -g) $HOME/admin.conf
+                    # export KUBECONFIG=$HOME/admin.conf
+                    # kubectl create serviceaccount --namespace kube-system tiller
+
+
+                    # helm install 
+                    # wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
+                    # tar zxfv helm-v2.7.2-linux-amd64.tar.gz
+                    # cp linux-amd64/helm .
+
+                    # kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+                    # helm init --service-account tiller
+                    # helm ls # does not return an error
+
+
+                    # ./helm update
+                    # export PROJECT=$(gcloud info --format='value(config.project)')
+                    # export BUCKET=$PROJECT-helm-repo
+                    # ./helm plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.1.1
+                    # gsutil mb gs://$PROJECT-helm-repo
+                    # ./helm gcs init gs://$BUCKET
+                    # ./helm version
+                    # sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials --zone us-central1-a hello-cluster
+                    # sudo chmod 777 /home/circleci/.kube/config
+                    # sudo chmod 777 /home/circleci/.config/gcloud/logs
+                    # sudo chmod 777 /home/circleci/.config/gcloud/credentials.db
+                    # kubectl run hello-server --image gcr.io/google-samples/hello-app:1.0 --port 8080
+                    # kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+                    # kubectl create serviceaccount tiller --namespace kube-system
+                    # kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+            # - run:
+            #     name: ACCTからサービスアカウントキーファイルを作成
+            #     command: |
+            #         echo $ACCT_AUTH | base64 -d > ${HOME}/gcloud-service-key.json
+
+            # - run:
+            #     name: gloudの設定
+            #     command: |
+            #         sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+            #         sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            #         sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+            # - run:
+            #     name: helmのインストール
+            #     command: |
+            #         sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+            #         wget https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz
+            #         tar zxfv helm-v2.7.2-linux-amd64.tar.gz
+            #         cp linux-amd64/helm .
+                    # kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+                    # kubectl create serviceaccount tiller --namespace kube-system
+                    # kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+            # - run:
+            #     name: コンテナのimageをUPLOAD
+            #     command: |
+            #         docker build -t asia.gcr.io/deploy-test-212203/hello .
+            #         sudo /opt/google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/deploy-test-212203/hello
+
+            # - run:
+            #     name: GKEへのデプロイ
+            #     command: |
+            #         sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+            #         # sudo /opt/google-cloud-sdk/bin/gcloud --quiet compute copy-files asia.gcr.io/deploy-test-212203/hello
+            #         sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+            #         sudo gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
+            #         sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster --zone us-central1-a --project deploy-test-212203
+            #         sudo /opt/google-cloud-sdk/bin/gcloud config config-helper --format=json
+            #         sudo chmod 777 /home/circleci/.kube/config
+            #         kubectl patch deployment docker-hello-google -p '{"spec":{"template":{"spec":{"containers":[{"name":"docker-hello-google","image":"asia.gcr.io/deploy-test-212203/hello:1.0 --port 8080:'"${HOME}/gcloud-service-key.json"'"}]}}}}'
+
+            #         kubectl run hello-server --image asia.gcr.io/deploy-test-212203/hello --port 8080
+            #         kubectl expose deployment hello-server-test --type "LoadBalancer"
+
+            # - run: chmod 777 ./.circleci/product.deploy.sh
+            # - run: bash ./.circleci/product.deploy.sh
+
+workflows:
+    version: 2
+    build_flow:
+        jobs:
+            - product:
+                context: deploy-test
+                filters:
+                    branches:
+                        only: develop
+
