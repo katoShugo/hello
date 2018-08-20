@@ -186,7 +186,7 @@ workflows:
                 filters:
                     branches:
                         develop
-                        confirmation
+                        # confirmation
                         # パイプつけた
                         # only: |
                             # develop
