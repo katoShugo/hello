@@ -8,8 +8,7 @@ machine:
     - docker
 version: 2.0
 jobs:
-    build:
-        # product:
+    product:
         machine: true
         steps:
             - checkout
@@ -175,11 +174,9 @@ jobs:
 workflows:
     version: 2
     build_flow:
-        jobs:
-            build:   
-                - product:
-                    context: deploy-test
-                    filters:
-                        branches:
-                            only: develop
-
+        jobs: 
+            - product:
+                context: deploy-test
+                filters:
+                    branches:
+                        only: develop
