@@ -16,7 +16,7 @@ jobs:
             #     name: helmのインストール
             #     command: |
 
-            # ==============================================================
+            # koko==============================================================
             #         # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
             #         # スーパーユーザー権限付与
             #         echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
