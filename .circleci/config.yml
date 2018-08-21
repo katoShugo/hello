@@ -12,31 +12,26 @@ jobs:
         machine: true
         steps:
             - checkout
-            # - run:
-            #     name: helmのインストール
-            #     command: |
-
-            # koko==============================================================
-            #         # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
-            #         # スーパーユーザー権限付与
-            #         echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
-            #         sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
-            #         # 下記は行ける
-            #         # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 146.0.0
-            #         sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
-            #         sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-            #         sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
-            #         sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone asia-northeast1-a
-            #         sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster-2
-            #         sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster-2
-            #         sudo chmod 777 /home/circleci/.kube/config
-            #         sudo chmod 777 /home/circleci/.config/gcloud/logs
-            #         export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
-            #         wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
-            #         tar zxfv helm-v2.6.2-linux-amd64.tar.gz
-            #         cp linux-amd64/helm .
-            #         kubectl create clusterrolebinding cluster-admin-binding-test --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
-            # ==============================================================
+            - run:
+                name: helmのインストール
+                command: |
+                    # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+                    # スーパーユーザー権限付与
+                    echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
+                    sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+                    sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone asia-northeast1-a
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster-2
+                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster-2
+                    sudo chmod 777 /home/circleci/.kube/config
+                    sudo chmod 777 /home/circleci/.config/gcloud/logs
+                    export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+                    wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
+                    tar zxfv helm-v2.6.2-linux-amd64.tar.gz
+                    cp linux-amd64/helm .
+                    kubectl create clusterrolebinding cluster-admin-binding-test --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
 
 
 
