@@ -38,7 +38,8 @@ jobs:
                     cp linux-amd64/helm .
                     # --userの後ろのメアドはCircleCIの方で環境変数に持たせる
                     # --user=のメアドを変えたので無事処理が通るか確認する
-                    kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
+                    # kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
+                    kubectl create clusterrolebinding cluster-admin-binding-test44 --from-file=${HOME}/gcloud-service-key.json
                     # kubectl create namespace tiller-world
                     # kubectl create -f ./tiller-rbac.yaml
 
