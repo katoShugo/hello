@@ -42,7 +42,7 @@ jobs:
                     kubectl apply -f ./tiller-rbac.yaml
 
                     ./helm init --tiller-namespace tiller-world --service-account tiller --upgrade
-                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world --namespace tiller-world
+                    # ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world --namespace tiller-world
             # ===========================================================================================
                     # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # # スーパーユーザー権限付与
