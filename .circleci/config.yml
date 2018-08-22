@@ -37,14 +37,16 @@ jobs:
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
                     # --userの後ろのメアドはCircleCIの方で環境変数に持たせる
-                    kubectl apply -f clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
-                    # kubectl apply -f namespace tiller-world
-                    # kubectl apply -f ./tiller-rbac.yaml
+                    # --user=のメアドを変えたので無事処理が通るか確認する
+                    kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
+                    # kubectl create namespace tiller-world
+                    # kubectl create -f ./tiller-rbac.yaml
 
                     # ./helm init --tiller-namespace tiller-world --service-account tiller --upgrade
                     # ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world --namespace tiller-world
             # ===========================================================================================
-                    # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+
+            # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # # スーパーユーザー権限付与
                     # # echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
