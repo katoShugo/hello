@@ -37,7 +37,7 @@ jobs:
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
                     # --userの後ろのメアドはCircleCIの方で環境変数に持たせる
-                    # kubectl apply -f clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
+                    kubectl apply -f clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
                     # kubectl apply -f namespace tiller-world
                     # kubectl apply -f ./tiller-rbac.yaml
 
