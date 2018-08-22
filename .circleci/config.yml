@@ -38,13 +38,12 @@ jobs:
                     cp linux-amd64/helm .
                     # --userの後ろのメアドはCircleCIの方で環境変数に持たせる
                     # --user=のメアドを変えたので無事処理が通るか確認する
-                    # kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
-                    kubectl create clusterrolebinding cluster-admin-binding-test56 --clusterrole=cluster-admin --user=1058377687387-compute@developer.gserviceaccount.com
-                    kubectl create namespace tiller-world-test56
+                    kubectl create clusterrolebinding cluster-admin-binding-57 --clusterrole=cluster-admin --user=$k8s_admin_user
+                    kubectl create namespace tiller-world-test57
                     kubectl create -f ./tiller-rbac.yaml
 
-                    ./helm init --tiller-namespace tiller-world-test56 --service-account tiller --upgrade
-                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world-test56 --namespace tiller-world-test56
+                    ./helm init --tiller-namespace tiller-world-test57 --service-account tiller --upgrade
+                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world-test57 --namespace tiller-world-test57
             # ===========================================================================================
 
             # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
