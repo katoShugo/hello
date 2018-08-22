@@ -12,27 +12,55 @@ jobs:
         machine: true
         steps:
             - checkout
+            # ===========================================================================================
             - run:
-                name: helmのインストール
+                name: kubectlのインストール
                 command: |
-                    # ===========================================================================================
                     echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
-                    # スーパーユーザー権限付与
-                    # echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
                     sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
                     sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+            - run:
+                name: gloudの設定
+                command: |
                     sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
                     sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone asia-northeast1-a
                     sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster-2
                     sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster-2
+            - run:
+                name: helmのinstall
+                command: |
                     sudo chmod 777 /home/circleci/.kube/config
                     sudo chmod 777 /home/circleci/.config/gcloud/logs
                     export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    kubectl create clusterrolebinding cluster-admin-binding-23 --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
+                    # --userの後ろのメアドはCircleCIの方で環境変数に持たせる
+                    kubectl apply clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
+                    kubectl apply namespace tiller-world
+                    kubectl apply -f ./tiller-rbac.yaml
+
+                    ./helm init --tiller-namespace tiller-world --service-account tiller --upgrade
+                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world --namespace tiller-world
+            # ===========================================================================================
+                    # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+                    # # スーパーユーザー権限付与
+                    # # echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+                    # sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update --version 185.0.0
+                    # sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
+                    # sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+                    # sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                    # sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone asia-northeast1-a
+                    # sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster-2
+                    # sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster-2
+                    # sudo chmod 777 /home/circleci/.kube/config
+                    # sudo chmod 777 /home/circleci/.config/gcloud/logs
+                    # export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/gcloud-service-key.json
+                    # wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
+                    # tar zxfv helm-v2.6.2-linux-amd64.tar.gz
+                    # cp linux-amd64/helm .
+                    # kubectl create clusterrolebinding cluster-admin-binding-23 --clusterrole=cluster-admin --user=hello-test@deploy-test-212203.iam.gserviceaccount.com
                     # kubectl create namespace tiller-world-23
                     # kubectl create -f ./tiller-rbac.yaml
                     # ./helm init --tiller-namespace tiller-world-23 --service-account tiller
@@ -184,6 +212,3 @@ workflows:
         jobs: 
             - product:
                 context: deploy-test
-                filters:
-                    branches:
-                        only: develop
