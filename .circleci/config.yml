@@ -38,12 +38,12 @@ jobs:
                     cp linux-amd64/helm .
                     # tillerに対してロールを付与するための処理（一回だけ処理が通るとロールが作成されｍ二回目以降同名のclusterrolebindingを作成するとエラーが出る）
                     # ---------------------------------------------------------
-                    kubectl create clusterrolebinding cluster-admin-binding-100 --clusterrole=cluster-admin --user=$k8s_admin_user
-                    kubectl create namespace tiller-world-100
+                    kubectl create clusterrolebinding cluster-admin-binding-101 --clusterrole=cluster-admin --user=$k8s_admin_user
+                    kubectl create namespace tiller-world-101
                     kubectl create -f ./tiller-rbac.yaml
                     # ---------------------------------------------------------
-                    ./helm init --tiller-namespace tiller-world-100 --service-account tiller --upgrade
-                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world-100 --namespace tiller-world-100
+                    ./helm init --tiller-namespace tiller-world-101 --service-account tiller --upgrade
+                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world-101 --namespace tiller-world-101
             # ===========================================================================================
             # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # # スーパーユーザー権限付与
