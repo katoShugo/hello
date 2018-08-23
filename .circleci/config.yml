@@ -42,11 +42,9 @@ jobs:
                     # kubectl create namespace tiller-world-test57
                     # kubectl create -f ./tiller-rbac.yaml
                     # ---------------------------------------------------------
-
                     ./helm init --tiller-namespace tiller-world-test57 --service-account tiller --upgrade
                     ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world-test57 --namespace tiller-world-test57
             # ===========================================================================================
-
             # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # # スーパーユーザー権限付与
                     # # echo $GCLOUD_SERVICE_KEY2 | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
