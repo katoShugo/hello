@@ -23,10 +23,10 @@ jobs:
             - run:
                 name: gloudの設定
                 command: |
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-212203
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set project deploy-test-2-214209
                     sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone asia-northeast1-a
-                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster hello-cluster-2
-                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials hello-cluster-2
+                    sudo /opt/google-cloud-sdk/bin/gcloud config set container/cluster deploy-test-2
+                    sudo /opt/google-cloud-sdk/bin/gcloud container clusters get-credentials deploy-test-2
             - run:
                 name: helmのinstall
                 command: |
@@ -36,14 +36,14 @@ jobs:
                     wget https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz
                     tar zxfv helm-v2.6.2-linux-amd64.tar.gz
                     cp linux-amd64/helm .
-                    # tillerに対してロールを付与するための処理（一回だけ処理が通るとロールが作成されｍ二回目以降同名のclusterrolebindingを作成するとエラーが出る）
+                    # tillerに対してロールを付与するための処理（一回だけ処理が通るとロールが作成され、二回目以降同名のclusterrolebindingを作成するとエラーが出る）
                     # ---------------------------------------------------------
-                    kubectl create clusterrolebinding cluster-admin-binding-101 --clusterrole=cluster-admin --user=$k8s_admin_user
-                    kubectl create namespace tiller-world-101
+                    kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$k8s_admin_user
+                    kubectl create namespace tiller-world
                     kubectl create -f ./tiller-rbac.yaml
                     # ---------------------------------------------------------
-                    ./helm init --tiller-namespace tiller-world-101 --service-account tiller --upgrade
-                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world-101 --namespace tiller-world-101
+                    ./helm init --tiller-namespace tiller-world --service-account tiller --upgrade
+                    ./helm upgrade test1 --install ./HelmFile/ -f ./HelmFile/values/dev.yaml  --tiller-namespace tiller-world --namespace tiller-world
             # ===========================================================================================
             # echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
                     # # スーパーユーザー権限付与
