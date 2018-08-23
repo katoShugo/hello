@@ -7,7 +7,7 @@ helloworld:
   deployment:
     metadata:
       name: deployment
-    replicaCount: 2
+    replicaCount: 5
     image: strm/helloworld-http
   
   service:
