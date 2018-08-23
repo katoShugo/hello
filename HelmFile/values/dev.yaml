@@ -17,4 +17,4 @@ helloworld:
   ingress:
     metadata:
       name: helloworld-ingress
-    hosts: kato-test.com
+    hosts: shugo.com
